@@ -1,15 +1,15 @@
 import React from "react";
 import { useController } from "react-hook-form";
 
-export function InputField({
+export function SelectField({
   label,
   name,
   control,
   rules,
   defaultValue,
-  placeholder,
+  options = [],
   disabled = false,
-  type = "text",
+  placeholder = "Chọn một mục",
   ...rest
 }) {
   const {
@@ -25,14 +25,12 @@ export function InputField({
         </label>
       )}
 
-      <input
+      <select
         id={name}
         {...field}
         {...rest}
-        type={type}
-        placeholder={placeholder}
         disabled={disabled}
-        className={`border rounded-md px-3 py-2 text-gray-900
+        className={`border rounded-md px-3 py-2 text-gray-900 bg-white
           focus:outline-none focus:ring-2 focus:ring-[#147265] focus:border-[#147265]
           transition
           ${
@@ -41,7 +39,16 @@ export function InputField({
               : "border-gray-300"
           }
         `}
-      />
+      >
+        <option value="" disabled hidden>
+          {placeholder}
+        </option>
+        {options.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
 
       {invalid && (
         <p className="text-xs text-red-600" role="alert">

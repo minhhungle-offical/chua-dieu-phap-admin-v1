@@ -1,7 +1,7 @@
 import React from "react";
 import { useController } from "react-hook-form";
 
-export function InputField({
+export function NumberField({
   label,
   name,
   control,
@@ -9,7 +9,9 @@ export function InputField({
   defaultValue,
   placeholder,
   disabled = false,
-  type = "text",
+  min,
+  max,
+  step = 1,
   ...rest
 }) {
   const {
@@ -29,9 +31,12 @@ export function InputField({
         id={name}
         {...field}
         {...rest}
-        type={type}
+        type="number"
         placeholder={placeholder}
         disabled={disabled}
+        min={min}
+        max={max}
+        step={step}
         className={`border rounded-md px-3 py-2 text-gray-900
           focus:outline-none focus:ring-2 focus:ring-[#147265] focus:border-[#147265]
           transition

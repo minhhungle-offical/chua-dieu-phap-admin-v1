@@ -1,11 +1,15 @@
 import { MainLayout } from "@/components/Layouts/MainLayout";
-import { Routes } from "react-router-dom";
+import { lazy } from "react";
+import { Route, Routes } from "react-router-dom";
+
+const Retreat = lazy(() => import("@/features/Retreats/Retreats"));
 
 export default function Main() {
   return (
     <MainLayout>
-      <p>Main</p>
-      {/* <Routes></Routes> */}
+      <Routes>
+        <Route path="/khoa-tu/*" element={<Retreat />} />
+      </Routes>
     </MainLayout>
   );
 }

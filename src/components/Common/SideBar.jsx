@@ -3,11 +3,11 @@ import { menu } from "@/constants/nav";
 import { FiLogOut, FiUser } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
 
-export function SideBar({ profile,logout }) {
+export function SideBar({ profile, logout }) {
   return (
-    <nav className="h-screen w-[240px] bg-gray-900 text-white flex flex-col shadow-lg">
+    <nav className="h-screen w-[200px] bg-gray-900 text-white flex flex-col shadow-lg">
       <div className="px-6 py-5">
-        <img src={logoUrl} alt="Logo" className="w-[80px] object-contain" />
+        <img src={logoUrl} alt="Logo" className="w-[70px] object-contain" />
       </div>
 
       <div className="p-2">
@@ -48,7 +48,10 @@ export function SideBar({ profile,logout }) {
       </div>
 
       <div className="border-t border-gray-800 py-4 space-y-3">
-        <button onClick={() => logout?.()} className="flex items-center gap-3 w-full text-left text-sm text-gray-300 hover:bg-gray-800 hover:text-white p-3 transition">
+        <button
+          onClick={() => logout?.()}
+          className="flex items-center gap-3 w-full text-left text-sm text-gray-300 hover:bg-gray-800 hover:text-white p-3 transition"
+        >
           <FiLogOut className="text-lg" />
           Đăng xuất
         </button>

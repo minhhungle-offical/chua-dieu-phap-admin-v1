@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useController } from "react-hook-form";
 
-export function VerifyOtpField({ name, control, rules }) {
+export function VerifyOtpField({ name, control, rules, disabled = false }) {
   const {
     field: { value = "", onChange },
     fieldState: { invalid, error },
@@ -59,6 +59,7 @@ export function VerifyOtpField({ name, control, rules }) {
             inputMode="numeric"
             maxLength={1}
             value={value[i] || ""}
+            disabled={disabled}
             onChange={(e) => handleChange(e, i)}
             onKeyDown={(e) => handleKeyDown(e, i)}
             onPaste={handlePaste}

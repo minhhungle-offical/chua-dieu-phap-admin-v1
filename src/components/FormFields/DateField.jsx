@@ -1,21 +1,17 @@
 import React from "react";
 import { useController } from "react-hook-form";
 
-export function InputField({
+export function DateField({
   label,
   name,
   control,
-  rules,
-  defaultValue,
-  placeholder,
-  disabled = false,
-  type = "text",
+  placeholder = "Chọn ngày",
   ...rest
 }) {
   const {
     field,
     fieldState: { invalid, error },
-  } = useController({ name, control, rules, defaultValue });
+  } = useController({ name, control });
 
   return (
     <div className="flex flex-col space-y-1">
@@ -29,9 +25,8 @@ export function InputField({
         id={name}
         {...field}
         {...rest}
-        type={type}
+        type="date"
         placeholder={placeholder}
-        disabled={disabled}
         className={`border rounded-md px-3 py-2 text-gray-900
           focus:outline-none focus:ring-2 focus:ring-[#147265] focus:border-[#147265]
           transition
