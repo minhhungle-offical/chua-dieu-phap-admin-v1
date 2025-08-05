@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { TextareaField } from "@/components/FormFields/TextareaField";
+import { MultiSelectField } from "@/components/FormFields/MultiSelectField";
 
 const statusOptions = [
   { label: "Bản nháp", value: "draft" },
@@ -22,6 +23,7 @@ const schema = yup.object({
     .string()
     .oneOf(["draft", "published", "archived"])
     .default("draft"),
+  tags: yup.string().trim().default([]),
 });
 
 const defaultValues = {
@@ -30,6 +32,7 @@ const defaultValues = {
   content: "",
   status: "draft",
   image: null,
+  tags: [],
 };
 
 export const AddEditPostForm = ({
@@ -55,6 +58,7 @@ export const AddEditPostForm = ({
       const newData = {
         ...data,
         image: data.imageUrl ? { url: data.imageUrl } : null,
+        tags: data.tags?.split(",").map((t) => t.trim()) || [],
       };
 
       delete newData.imageUrl;
@@ -111,6 +115,24 @@ export const AddEditPostForm = ({
         placeholder="Viết tóm tắt ngắn (tuỳ chọn)"
         disabled={disabled}
         rows={3}
+      />
+
+      <MultiSelectField
+        name="tags"
+        control={control}
+        label="Thẻ (tags)"
+        options={[
+          { label: "Pháp thoại", value: "phap-thoai" },
+          { label: "Kinh tụng", value: "kinh-tung" },
+          { label: "Thiền tập", value: "thien-tap" },
+          { label: "Phật sự", value: "phat-su" },
+          { label: "Thông báo", value: "thong-bao" },
+          { label: "Hình ảnh", value: "hinh-anh" },
+          { label: "Giáo lý", value: "giao-ly" },
+          { label: "Sự kiện", value: "su-kien" },
+          { label: "Chia sẻ", value: "chia-se" },
+        ]}
+        disabled={disabled}
       />
 
       <SelectField

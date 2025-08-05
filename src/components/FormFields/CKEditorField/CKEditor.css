@@ -75,8 +75,8 @@
 }
 
 .editor-container_document-editor .editor-container__editor-wrapper {
-  padding-left: 72px;
-  padding-right: 72px;
+  padding-left: 16px;
+  padding-right: 16px;
 
   max-height: var(--ckeditor5-preview-height);
   min-height: var(--ckeditor5-preview-height);

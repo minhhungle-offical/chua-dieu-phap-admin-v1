@@ -23,15 +23,15 @@ export default function Posts() {
   });
 
   useEffect(() => {
-    fetchPosts();
+    fetchPosts(filter);
   }, [filter]);
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (filter) => {
     try {
       setLoading(true);
       const res = await postApi.getAll(filter);
-      setPostList(res.data.data);
-      setPagination(res.data.pagination);
+      setPostList(res.data);
+      setPagination(res.pagination);
     } catch (err) {
       console.error("Lỗi khi tải bài viết:", err);
     } finally {
@@ -44,12 +44,9 @@ export default function Posts() {
     setShowForm(true);
   };
 
-  const handleEdit = (slug) => {
-    const found = postList.find((p) => p.slug === slug);
-    if (found) {
-      setSelectedPost(found);
-      setShowForm(true);
-    }
+  const handleEdit = (item) => {
+    setSelectedPost(item);
+    setShowForm(true);
   };
 
   const handleCloseForm = () => {
@@ -59,6 +56,7 @@ export default function Posts() {
 
   const handleSubmitForm = async (formData) => {
     try {
+      setLoading(true);
       if (selectedPost) {
         await postApi.update(selectedPost._id, formData);
       } else {
@@ -66,9 +64,11 @@ export default function Posts() {
       }
 
       handleCloseForm();
-      fetchPosts();
+      fetchPosts(filter);
     } catch (err) {
       console.error("Lưu bài viết thất bại:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -88,7 +88,6 @@ export default function Posts() {
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
-      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-800">Quản lý Bài Viết</h1>
         <button
@@ -100,10 +99,8 @@ export default function Posts() {
         </button>
       </div>
 
-      {/* Filter */}
       <PostFilter filter={filter} onFilterChange={setFilter} />
 
-      {/* Danh sách bài viết */}
       {loading ? (
         <p className="p-4 text-center text-gray-600">Đang tải dữ liệu...</p>
       ) : (
@@ -122,26 +119,28 @@ export default function Posts() {
       )}
 
       {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-6xl max-h-[90vh] overflow-y-auto relative">
-            <button
-              onClick={handleCloseForm}
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl font-bold focus:outline-none"
-              aria-label="Close"
-            >
-              <FiX size={20} />
-            </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4  ">
+          <div className="overflow-hidden bg-white rounded-lg shadow-lg">
+            <div className=" p-6 w-full max-w-6xl max-h-[90vh] overflow-y-auto relative">
+              <button
+                onClick={handleCloseForm}
+                className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl font-bold focus:outline-none"
+                aria-label="Close"
+              >
+                <FiX size={20} />
+              </button>
 
-            <h2 className="text-xl font-bold text-gray-800 mb-4">
-              {selectedPost ? "Chỉnh sửa bài viết" : "Tạo bài viết mới"}
-            </h2>
+              <h2 className="text-xl font-bold text-gray-800 mb-4">
+                {selectedPost ? "Chỉnh sửa bài viết" : "Tạo bài viết mới"}
+              </h2>
 
-            <AddEditPostForm
-              data={selectedPost}
-              loading={loading}
-              onSubmit={handleSubmitForm}
-              onCancel={handleCloseForm}
-            />
+              <AddEditPostForm
+                data={selectedPost}
+                loading={loading}
+                onSubmit={handleSubmitForm}
+                onCancel={handleCloseForm}
+              />
+            </div>
           </div>
         </div>
       )}
