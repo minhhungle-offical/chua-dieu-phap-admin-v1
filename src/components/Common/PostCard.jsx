@@ -34,6 +34,8 @@ export const PostCard = ({ post, onEdit, onDelete }) => {
           Bài viết
         </div>
 
+        <div className="flex-1" />
+
         <div className="flex justify-end gap-3 mt-4">
           <span
             className={clsx(

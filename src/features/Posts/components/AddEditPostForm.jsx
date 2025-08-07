@@ -23,7 +23,7 @@ const schema = yup.object({
     .string()
     .oneOf(["draft", "published", "archived"])
     .default("draft"),
-  tags: yup.string().trim().default([]),
+  tags: yup.array().of(yup.string()).default([]),
 });
 
 const defaultValues = {

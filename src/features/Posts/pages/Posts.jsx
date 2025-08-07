@@ -5,6 +5,7 @@ import { FiPlus, FiX } from "react-icons/fi";
 import { AddEditPostForm } from "../components/AddEditPostForm";
 import { PostFilter } from "../components/PostFilter";
 import { PostList } from "../components/PostList";
+import { toast } from "react-toastify";
 
 export default function Posts() {
   const [loading, setLoading] = useState(false);
@@ -59,14 +60,17 @@ export default function Posts() {
       setLoading(true);
       if (selectedPost) {
         await postApi.update(selectedPost._id, formData);
+        toast.success("Cập nhật bài viết thành công!");
       } else {
         await postApi.create(formData);
+        toast.success("Tạo bài viết mới thành công!");
       }
 
       handleCloseForm();
       fetchPosts(filter);
     } catch (err) {
       console.error("Lưu bài viết thất bại:", err);
+      toast.error("Lưu bài viết thất bại. Vui lòng thử lại!");
     } finally {
       setLoading(false);
     }
@@ -79,8 +83,10 @@ export default function Posts() {
       await postApi.remove(removeItem._id);
       setRemoveItem(null);
       fetchPosts();
+      toast.success("Xoá bài viết thành công!");
     } catch (err) {
       console.error("Xoá bài viết thất bại:", err);
+      toast.error("Xoá bài viết thất bại. Vui lòng thử lại!");
     } finally {
       setRemoveLoading(false);
     }
